@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sikho AI - Learn Anything</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="header-content">
+                <div class="theme-toggle">
+                    <button id="theme-toggle" class="theme-btn">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <h1>Sikho AI</h1>
+                </div>
+                <p class="subtitle">Kuch bhi seekho, kisi bhi level mein!</p>
+            </div>
+        </header>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <form id="topic-form" class="search-form">
+                <div class="input-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="topic-input" placeholder="Aaj kya seekhna hai? Type any topic..." required>
+                    <button type="submit" class="search-btn">
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Loading Animation -->
+        <div id="loader" class="loader-container" style="display: none;">
+            <div class="loader">
+                <div class="loader-circle"></div>
+                <div class="loader-circle"></div>
+                <div class="loader-circle"></div>
+            </div>
+            <p class="loader-text">AI se answers ready kar raha hai...</p>
+        </div>
+
+        <!-- Results Section -->
+        <main id="results-container" class="results-container hidden">
+            <div class="level-card beginner">
+                <div class="card-header">
+                    <div class="level-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <div class="level-info">
+                        <h2>Beginner Level</h2>
+                        <span class="level-subtitle">Simple aur Easy</span>
+                    </div>
+                </div>
+                <div id="output-6th" class="content-box"></div>
+            </div>
+
+            <div class="level-card intermediate">
+                <div class="card-header">
+                    <div class="level-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="level-info">
+                        <h2>College Level</h2>
+                        <span class="level-subtitle">Technical but Clear</span>
+                    </div>
+                </div>
+                <div id="output-grad" class="content-box"></div>
+            </div>
+
+            <div class="level-card expert">
+                <div class="card-header">
+                    <div class="level-icon">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <div class="level-info">
+                        <h2>Expert Level</h2>
+                        <span class="level-subtitle">Advanced aur Detailed</span>
+                    </div>
+                </div>
+                <div id="output-phd" class="content-box"></div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Made with ❤️ for India</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
