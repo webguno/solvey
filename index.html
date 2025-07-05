@@ -1373,7 +1373,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
     </script>
     <script>
-        // Search and API Management
+       // Search and API Management
 class SearchManager {
     constructor() {
         this.form = document.getElementById('topic-form');
@@ -1383,29 +1383,23 @@ class SearchManager {
         this.resultsContainer = document.getElementById('results-container');
         this.newSearchBtn = document.getElementById('new-search-btn');
         this.suggestionChips = document.querySelectorAll('.suggestion-chip');
-        
         this.isSearching = false;
         this.currentTopic = '';
-        
         this.init();
     }
-    
+
     init() {
         // Form submission
         this.form.addEventListener('submit', (e) => this.handleSearch(e));
-        
         // Input focus effects
         this.input.addEventListener('focus', () => this.handleInputFocus());
         this.input.addEventListener('blur', () => this.handleInputBlur());
-        
         // New search button
         this.newSearchBtn.addEventListener('click', () => this.resetSearch());
-        
         // Suggestion chips
         this.suggestionChips.forEach(chip => {
             chip.addEventListener('click', () => this.selectSuggestion(chip.dataset.topic));
         });
-        
         // Enter key on suggestions
         this.suggestionChips.forEach(chip => {
             chip.addEventListener('keypress', (e) => {
@@ -1414,45 +1408,41 @@ class SearchManager {
                 }
             });
         });
-        
-        // Copy buttons (will be added dynamically)
+        // Copy buttons
         this.setupCopyButtons();
     }
-    
+
     handleInputFocus() {
         this.input.parentElement.classList.add('focused');
     }
-    
+
     handleInputBlur() {
         this.input.parentElement.classList.remove('focused');
     }
-    
+
     selectSuggestion(topic) {
         this.input.value = topic;
         this.input.focus();
-        
-        // Trigger search after a brief delay
         setTimeout(() => {
             this.form.dispatchEvent(new Event('submit'));
         }, 100);
     }
-    
+
     async handleSearch(e) {
         e.preventDefault();
-        
         if (this.isSearching) return;
-        
+
         const topic = this.input.value.trim();
         if (!topic) {
             this.showToast('Please enter a topic to search', 'error');
             return;
         }
-        
+
         this.currentTopic = topic;
         this.isSearching = true;
         this.showLoader();
         this.hideResults();
-        
+
         try {
             await this.performSearch(topic);
         } catch (error) {
@@ -1463,151 +1453,126 @@ class SearchManager {
             this.hideLoader();
         }
     }
-    
+
     async performSearch(topic) {
-        // Update results title
         document.getElementById('results-title').textContent = `Learning about: ${topic}`;
-        
-        // Show results container
         this.showResults();
-        
-        // Generate content for each level
+
         const levels = [
             { id: 'output-beginner', card: 'beginner', prompt: this.generatePrompt(topic, 'beginner') },
             { id: 'output-intermediate', card: 'intermediate', prompt: this.generatePrompt(topic, 'intermediate') },
             { id: 'output-expert', card: 'expert', prompt: this.generatePrompt(topic, 'expert') }
         ];
-        
-        // Process each level
+
         for (const level of levels) {
             await this.generateContent(level);
         }
     }
-    
+
     generatePrompt(topic, level) {
         const prompts = {
-            beginner: `Explain "${topic}" in simple terms for beginners. Use Hindi and English mix (Hinglish) where appropriate. Focus on basic concepts and real-life examples. Keep it under 300 words.`,
-            intermediate: `Provide a detailed explanation of "${topic}" with examples and practical applications. Include key points, processes, and how it works in practice. Use both Hindi and English. Around 400-500 words.`,
-            expert: `Give an advanced, comprehensive explanation of "${topic}" including technical details, regulations, best practices, and professional insights. Include case studies or complex scenarios. 500-600 words.`
+            beginner: `Explain "${topic}" in simple terms for beginners. Use Hindi and English mix (Hinglish) where appropriate. Focus on basic concepts and real-life examples.`,
+            intermediate: `Provide a detailed explanation of "${topic}" with examples and practical applications. Include key points, processes, and how it works in practice.`,
+            expert: `Give an advanced, comprehensive explanation of "${topic}" including technical details, regulations, best practices, and professional insights.`
         };
-        
         return prompts[level];
     }
-    
+
     async generateContent(level) {
         const card = document.querySelector(`.level-card.${level.card}`);
         const output = document.getElementById(level.id);
-        
-        // Add loading state
+
         card.classList.add('loading');
         output.innerHTML = 'Loading...';
-        
+
         try {
-            // Simulate API call delay
-            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
-            
-            // Generate mock content (replace with actual API call)
-            const content = this.generateMockContent(this.currentTopic, level.card);
-            
-            // Remove loading state and add content
+            const response = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: level.prompt })
+            });
+
+            if (!response.ok) {
+                throw new Error('API call failed');
+            }
+
+            const data = await response.json();
+            if (!data.text) {
+                throw new Error('No content returned from API');
+            }
+
             card.classList.remove('loading');
             card.classList.add('loaded');
-            
-            // Animate content appearance
-            this.animateContentAppearance(output, content);
-            
+            this.animateContentAppearance(output, data.text);
+
         } catch (error) {
             card.classList.remove('loading');
             output.innerHTML = 'Error loading content. Please try again.';
             console.error('Content generation error:', error);
         }
     }
-    
-    generateMockContent(topic, level) {
-        // This would be replaced with actual API call
-        const contents = {
-            beginner: `**${topic} - Beginner Level**\n\n${topic} ek important concept hai business aur finance mein. Isko samjhana bahut zaroori hai kyunki ye hamari daily life mein bhi kaam aata hai.\n\n**Basic Points:**\n• Simple definition aur meaning\n• Real-life examples\n• Why it matters\n• How to get started\n\nYe concept seekhne ke liye pehle basic terms samjhiye, phir gradually advanced topics ki taraf badhiye.`,
-            
-            intermediate: `**${topic} - Intermediate Level**\n\n${topic} ke bare mein detailed analysis:\n\n**Key Components:**\n• Technical aspects aur working mechanism\n• Practical applications in business\n• Step-by-step process\n• Common challenges aur solutions\n\n**Examples:**\n• Case studies\n• Industry best practices\n• Calculation methods\n\n**Important Notes:**\n• Regulatory requirements\n• Documentation needed\n• Timeline considerations\n\nIs level par aap practical implementation ke bare mein seekhenge.`,
-            
-            expert: `**${topic} - Expert Level**\n\n${topic} ka comprehensive analysis:\n\n**Advanced Concepts:**\n• Complex scenarios aur edge cases\n• Strategic implications\n• Risk management aspects\n• Compliance requirements\n\n**Professional Insights:**\n• Industry trends\n• Future developments\n• Integration with other systems\n• Optimization strategies\n\n**Case Studies:**\n• Real-world implementations\n• Success stories\n• Lessons learned\n\n**Best Practices:**\n• Professional recommendations\n• Quality standards\n• Continuous improvement\n\nExpert level mein aap advance strategies aur professional applications seekhenge.`
-        };
-        
-        return contents[level] || `Content for ${topic} at ${level} level.`;
-    }
-    
+
     animateContentAppearance(element, content) {
         element.style.opacity = '0';
         element.innerHTML = content;
-        
-        // Fade in animation
         element.style.transition = 'opacity 0.5s ease';
         setTimeout(() => {
             element.style.opacity = '1';
         }, 50);
     }
-    
+
     showLoader() {
         this.loader.style.display = 'flex';
         this.searchBtn.disabled = true;
         this.searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
     }
-    
+
     hideLoader() {
         this.loader.style.display = 'none';
         this.searchBtn.disabled = false;
         this.searchBtn.innerHTML = '<i class="fas fa-arrow-right"></i>';
     }
-    
+
     showResults() {
         this.resultsContainer.classList.remove('hidden');
         this.resultsContainer.scrollIntoView({ behavior: 'smooth' });
     }
-    
+
     hideResults() {
         this.resultsContainer.classList.add('hidden');
     }
-    
+
     resetSearch() {
         this.input.value = '';
         this.input.focus();
         this.hideResults();
         this.currentTopic = '';
-        
-        // Reset all cards
         document.querySelectorAll('.level-card').forEach(card => {
             card.classList.remove('loading', 'loaded');
         });
-        
-        // Clear all content
         document.querySelectorAll('.content-box').forEach(box => {
             box.innerHTML = '';
         });
-        
-        // Scroll to top
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    
+
     setupCopyButtons() {
-        // This will be called after content is loaded
         document.addEventListener('click', (e) => {
             if (e.target.classList.contains('copy-btn') || e.target.parentElement.classList.contains('copy-btn')) {
                 const button = e.target.classList.contains('copy-btn') ? e.target : e.target.parentElement;
                 const card = button.closest('.level-card');
                 const content = card.querySelector('.content-box').textContent;
-                
                 this.copyToClipboard(content);
             }
         });
     }
-    
+
     async copyToClipboard(text) {
         try {
             if (navigator.clipboard) {
                 await navigator.clipboard.writeText(text);
                 this.showToast('Content copied to clipboard!', 'success');
             } else {
-                // Fallback for older browsers
                 const textArea = document.createElement('textarea');
                 textArea.value = text;
                 document.body.appendChild(textArea);
@@ -1621,31 +1586,24 @@ class SearchManager {
             console.error('Copy error:', error);
         }
     }
-    
+
     showToast(message, type = 'info') {
         const toast = document.getElementById('toast');
         const icon = toast.querySelector('.toast-icon');
         const messageElement = toast.querySelector('.toast-message');
-        
-        // Set content
+
         messageElement.textContent = message;
-        
-        // Set icon based on type
+
         const icons = {
             success: 'fas fa-check-circle',
             error: 'fas fa-exclamation-circle',
             info: 'fas fa-info-circle'
         };
-        
+
         icon.className = `toast-icon ${icons[type]}`;
-        
-        // Set type class
         toast.className = `toast ${type}`;
-        
-        // Show toast
         toast.classList.add('show');
-        
-        // Hide after 3 seconds
+
         setTimeout(() => {
             toast.classList.remove('show');
         }, 3000);
