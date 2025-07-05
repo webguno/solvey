@@ -1,606 +1,399 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sikho AI - Learn Anything</title>
-   
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sikho Commerce - Learn Finance & Business</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com ">
+    <link rel="preconnect" href="https://fonts.gstatic.com " crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
+    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css ">
 
     <style>
-        
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    /* Light mode colors */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
-  --bg-gradient: linear-gradient(135deg, #787ea7 0%, #1b2752 100%);
-    --text-primary: #333333;
-    --text-secondary: #666666;
-    --text-light: rgba(255, 255, 255, 0.8);
-    --card-bg: rgba(255, 255, 255, 0.95);
-    --card-border: rgba(255, 255, 255, 0.3);
-    --input-bg: rgba(255, 255, 255, 0.95);
-    --shadow: rgba(0, 0, 0, 0.1);
-    --shadow-hover: rgba(0, 0, 0, 0.15);
-}
-
-.dark-mode {
-    /* Dark mode colors */
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
-    --bg-gradient: linear-gradient(135deg, #2d3561 0%, #3d2f5a 100%);
-    --text-primary: #ffffff;
-    --text-secondary: #cccccc;
-    --text-light: rgba(255, 255, 255, 0.7);
-    --card-bg: rgba(45, 45, 45, 0.95);
-    --card-border: rgba(255, 255, 255, 0.1);
-    --input-bg: rgba(45, 45, 45, 0.95);
-    --shadow: rgba(0, 0, 0, 0.3);
-    --shadow-hover: rgba(0, 0, 0, 0.4);
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-    background: var(--bg-gradient);
-    color: var(--text-primary);
-    min-height: 100vh;
-    overflow-x: hidden;
-    transition: all 0.3s ease;
-}
-
-.app-container {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
-
-/* Theme Toggle */
-.theme-toggle {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    z-index: 1000;
-}
-
-.theme-btn {
-    background: var(--card-bg);
-    border: 1px solid var(--card-border);
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(20px);
-    box-shadow: 0 8px 25px var(--shadow);
-}
-
-.theme-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 12px 30px var(--shadow-hover);
-}
-
-.theme-btn i {
-    font-size: 1.2rem;
-    color: var(--text-primary);
-}
-
-/* Header Styles */
-.header {
-    padding: 2rem 1rem 1rem;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--card-border);
-}
-
-.header-content {
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.logo i {
-    font-size: 2.5rem;
-    color: #fff;
-    animation: pulse 2s infinite;
-}
-
-.header h1 {
-    color: #fff;
-    font-weight: 700;
-    font-size: 2rem;
-    letter-spacing: -0.5px;
-}
-
-.subtitle {
-    color: var(--text-light);
-    font-size: 1.1rem;
-    font-weight: 400;
-}
-
-/* Search Section */
-.search-section {
-    padding: 2rem 1rem;
-    max-width: 600px;
-    margin: 0 auto;
-    width: 100%;
-}
-
-.search-form {
-    position: relative;
-}
-
-.input-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    background: var(--input-bg);
-    border-radius: 25px;
-    box-shadow: 0 20px 40px var(--shadow);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--card-border);
-    transition: all 0.3s ease;
-}
-
-.input-container:hover,
-.input-container.focused {
-    transform: translateY(-2px);
-    box-shadow: 0 25px 50px var(--shadow-hover);
-}
-
-.search-icon {
-    position: absolute;
-    left: 1.5rem;
-    color: #667eea;
-    font-size: 1.2rem;
-    z-index: 2;
-}
-
-#topic-input {
-    flex: 1;
-    padding: 1.2rem 1.5rem 1.2rem 3.5rem;
-    font-size: 1.1rem;
-    border: none;
-    background: transparent;
-    outline: none;
-    color: var(--text-primary);
-    font-weight: 500;
-}
-
-#topic-input::placeholder {
-    color: var(--text-secondary);
-    font-weight: 400;
-}
-
-.search-btn {
-    padding: 1rem 1.5rem;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    border: none;
-    border-radius: 20px;
-    color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 0.25rem;
-}
-
-.search-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-}
-
-.search-btn i {
-    font-size: 1.2rem;
-}
-
-/* Loader Styles */
-.loader-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem 1rem;
-    animation: fadeIn 0.5s ease;
-}
-
-.loader {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.loader-circle {
-    width: 12px;
-    height: 12px;
-    background: #fff;
-    border-radius: 50%;
-    animation: bounce 1.4s infinite ease-in-out both;
-}
-
-.loader-circle:nth-child(1) { animation-delay: -0.32s; }
-.loader-circle:nth-child(2) { animation-delay: -0.16s; }
-
-.loader-text {
-    color: var(--text-light);
-    font-size: 1.1rem;
-    font-weight: 500;
-}
-
-@keyframes bounce {
-    0%, 80%, 100% {
-        transform: scale(0);
-    }
-    40% {
-        transform: scale(1);
-    }
-}
-
-/* Results Container */
-.results-container {
-    flex: 1;
-    padding: 1rem;
-    max-width: 800px;
-    margin: 0 auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    animation: slideUp 0.6s ease;
-}
-
-.hidden {
-    display: none !important;
-}
-
-/* Level Cards */
-.level-card {
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 1.5rem;
-    box-shadow: 0 15px 35px var(--shadow);
-    backdrop-filter: blur(20px);
-    border: 1px solid var(--card-border);
-    transition: all 0.4s ease;
-    opacity: 0;
-    transform: translateY(30px);
-}
-
-.level-card.loaded {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.level-card.loading {
-    position: relative;
-    overflow: hidden;
-}
-
-.level-card.loading::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-    animation: shimmer 1.5s infinite;
-}
-
-.level-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 25px 50px var(--shadow-hover);
-}
-
-.card-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid var(--bg-secondary);
-}
-
-.level-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: white;
-    position: relative;
-}
-
-.beginner .level-icon {
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
-}
-
-.intermediate .level-icon {
-    background: linear-gradient(135deg, #fa709a, #fee140);
-}
-
-.expert .level-icon {
-    background: linear-gradient(135deg, #a8edea, #fed6e3);
-    color: #333;
-}
-
-.level-info h2 {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.25rem;
-}
-
-.level-subtitle {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    font-weight: 400;
-}
-
-.content-box {
-    line-height: 1.7;
-    color: var(--text-primary);
-    font-size: 1rem;
-    white-space: pre-wrap;
-}
-
-.content-box strong {
-    color: var(--text-primary);
-    font-weight: 600;
-}
-
-.content-box ul {
-    margin: 1rem 0;
-    padding-left: 1.5rem;
-}
-
-.content-box li {
-    margin-bottom: 0.5rem;
-    color: var(--text-secondary);
-}
-
-/* Notifications */
-.notification {
-    position: fixed;
-    top: 2rem;
-    right: 2rem;
-    background: var(--card-bg);
-    backdrop-filter: blur(20px);
-    border-radius: 15px;
-    padding: 1rem 1.5rem;
-    box-shadow: 0 15px 35px var(--shadow);
-    border: 1px solid var(--card-border);
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    transform: translateX(100%);
-    transition: all 0.3s ease;
-    z-index: 1000;
-    max-width: 300px;
-}
-
-.notification.show {
-    transform: translateX(0);
-}
-
-.notification.success {
-    border-left: 4px solid #4caf50;
-}
-
-.notification.warning {
-    border-left: 4px solid #ff9800;
-}
-
-.notification.error {
-    border-left: 4px solid #f44336;
-}
-
-.notification .icon {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.notification.success .icon {
-    color: #4caf50;
-}
-
-.notification.warning .icon {
-    color: #ff9800;
-}
-
-.notification.error .icon {
-    color: #f44336;
-}
-
-.notification span {
-    color: var(--text-primary);
-}
-
-/* Footer */
-.footer {
-    text-align: center;
-    padding: 2rem 1rem;
-    color: var(--text-light);
-    font-size: 0.9rem;
-}
-
-/* Animations */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-}
-
-@keyframes shimmer {
-    0% {
-        left: -100%;
-    }
-    100% {
-        left: 100%;
-    }
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .theme-toggle {
-        top: 0.5rem;
-        right: 0.5rem;
-    }
-    
-    .theme-btn {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .header {
-        padding: 1.5rem 1rem 0.5rem;
-    }
-    
-    .logo {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-    
-    .header h1 {
-        font-size: 1.5rem;
-    }
-    
-    .subtitle {
-        font-size: 1rem;
-    }
-    
-    .search-section {
-        padding: 1.5rem 1rem;
-    }
-    
-    .input-container {
-        border-radius: 20px;
-    }
-    
-    #topic-input {
-        font-size: 1rem;
-        padding: 1rem 1rem 1rem 3rem;
-    }
-    
-    .search-btn {
-        padding: 0.75rem 1.25rem;
-    }
-    
-    .level-card {
-        padding: 1.25rem;
-        border-radius: 15px;
-    }
-    
-    .card-header {
-        gap: 0.75rem;
-    }
-    
-    .level-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1.2rem;
-    }
-    
-    .level-info h2 {
-        font-size: 1.1rem;
-    }
-    
-    .notification {
-        top: 1rem;
-        right: 1rem;
-        left: 1rem;
-        max-width: none;
-    }
-}
-
-@media (max-width: 480px) {
-    .search-icon {
-        left: 1rem;
-    }
-    
-    #topic-input {
-        padding-left: 2.5rem;
-    }
-    
-    .level-card {
-        padding: 1rem;
-    }
-    
-    .card-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 0.5rem;
-    }
-}
-
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-gradient: linear-gradient(135deg, #787ea7 0%, #1b2752 100%);
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --text-light: rgba(255, 255, 255, 0.8);
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --card-border: rgba(255, 255, 255, 0.3);
+            --input-bg: rgba(255, 255, 255, 0.95);
+            --shadow: rgba(0, 0, 0, 0.1);
+            --shadow-hover: rgba(0, 0, 0, 0.15);
+        }
+
+        .dark-mode {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-gradient: linear-gradient(135deg, #2d3561 0%, #3d2f5a 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-light: rgba(255, 255, 255, 0.7);
+            --card-bg: rgba(45, 45, 45, 0.95);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(45, 45, 45, 0.95);
+            --shadow: rgba(0, 0, 0, 0.3);
+            --shadow-hover: rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+
+        .theme-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 25px var(--shadow);
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 30px var(--shadow-hover);
+        }
+
+        .theme-btn i {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        /* Header Styles */
+        .header {
+            padding: 2rem 1rem 1rem;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .header-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .logo i {
+            font-size: 2.5rem;
+            color: #fff;
+            animation: pulse 2s infinite;
+        }
+
+        .header h1 {
+            color: #fff;
+            font-weight: 700;
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        /* Search Section */
+        .search-section {
+            padding: 2rem 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .search-form {
+            position: relative;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--input-bg);
+            border-radius: 25px;
+            box-shadow: 0 20px 40px var(--shadow);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            transition: all 0.3s ease;
+        }
+
+        .input-container:hover,
+        .input-container.focused {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 50px var(--shadow-hover);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.5rem;
+            color: #667eea;
+            font-size: 1.2rem;
+            z-index: 2;
+        }
+
+        #topic-input {
+            flex: 1;
+            padding: 1.2rem 1.5rem 1.2rem 3.5rem;
+            font-size: 1.1rem;
+            border: none;
+            background: transparent;
+            outline: none;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        #topic-input::placeholder {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .search-btn {
+            padding: 1rem 1.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.25rem;
+        }
+
+        .search-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .search-btn i {
+            font-size: 1.2rem;
+        }
+
+        /* Results Container */
+        .results-container {
+            flex: 1;
+            padding: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            animation: slideUp 0.6s ease;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Level Cards */
+        .level-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 15px 35px var(--shadow);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .level-card.loaded {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .level-card.loading {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .level-card.loading::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+
+        .level-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px var(--shadow-hover);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--bg-secondary);
+        }
+
+        .level-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            position: relative;
+        }
+
+        .beginner .level-icon {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        .intermediate .level-icon {
+            background: linear-gradient(135deg, #fa709a, #fee140);
+        }
+
+        .expert .level-icon {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            color: #333;
+        }
+
+        .level-info h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .level-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .content-box {
+            line-height: 1.7;
+            color: var(--text-primary);
+            font-size: 1rem;
+            white-space: pre-wrap;
+        }
+
+        .content-box strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .content-box ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .content-box li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="app-container">
-        <!-- Header Section -->
+        <!-- Header -->
         <header class="header">
             <div class="header-content">
                 <div class="theme-toggle">
                     <button id="theme-toggle" class="theme-btn">
-                       <i class="fa-thin fa-bolt"></i>
+                        <i class="fas fa-moon"></i>
                     </button>
                 </div>
                 <div class="logo">
-                    <i class="fas fa-brain"></i>
-                    <h1>Sikho AI</h1>
+                    <i class="fas fa-chart-line"></i>
+                    <h1>Sikho Commerce</h1>
                 </div>
-                <p class="subtitle">Kuch bhi seekho, kisi bhi level mein!</p>
+                <p class="subtitle">Finance, Economics, Accounts aur Business seekho!</p>
             </div>
         </header>
 
-        <!-- Search Section -->
+        <!-- Search -->
         <section class="search-section">
             <form id="topic-form" class="search-form">
                 <div class="input-container">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" id="topic-input" placeholder="Aaj kya seekhna hai? Type any topic..." required>
+                    <input type="text" id="topic-input" placeholder="Aaj kya seekhna hai? e.g., GST, Balance Sheet..." required>
                     <button type="submit" class="search-btn">
                         <i class="fas fa-arrow-right"></i>
                     </button>
@@ -608,7 +401,7 @@ body {
             </form>
         </section>
 
-        <!-- Loading Animation -->
+        <!-- Loader -->
         <div id="loader" class="loader-container" style="display: none;">
             <div class="loader">
                 <div class="loader-circle"></div>
@@ -618,42 +411,40 @@ body {
             <p class="loader-text">AI se answers ready kar raha hai...</p>
         </div>
 
-        <!-- Results Section -->
+        <!-- Results -->
         <main id="results-container" class="results-container hidden">
             <div class="level-card beginner">
                 <div class="card-header">
                     <div class="level-icon">
-                        <i class="fas fa-child"></i>
+                        <i class="fas fa-book-open"></i>
                     </div>
                     <div class="level-info">
-                        <h2>Beginner Level</h2>
-                        <span class="level-subtitle">Simple aur Easy</span>
+                        <h2>School Level</h2>
+                        <span class="level-subtitle">Basic Concepts | Hindi + English</span>
                     </div>
                 </div>
                 <div id="output-6th" class="content-box"></div>
             </div>
-
             <div class="level-card intermediate">
                 <div class="card-header">
                     <div class="level-icon">
-                        <i class="fas fa-graduation-cap"></i>
+                        <i class="fas fa-university"></i>
                     </div>
                     <div class="level-info">
                         <h2>College Level</h2>
-                        <span class="level-subtitle">Technical but Clear</span>
+                        <span class="level-subtitle">Detailed Theory | Practical Examples</span>
                     </div>
                 </div>
                 <div id="output-grad" class="content-box"></div>
             </div>
-
             <div class="level-card expert">
                 <div class="card-header">
                     <div class="level-icon">
-                        <i class="fas fa-microscope"></i>
+                        <i class="fas fa-briefcase"></i>
                     </div>
                     <div class="level-info">
                         <h2>Expert Level</h2>
-                        <span class="level-subtitle">Advanced aur Detailed</span>
+                        <span class="level-subtitle">Advanced Analysis | Real-world Use Cases</span>
                     </div>
                 </div>
                 <div id="output-phd" class="content-box"></div>
@@ -662,190 +453,142 @@ body {
 
         <!-- Footer -->
         <footer class="footer">
-            <p>App By Web.Guno | Made with ❤️ for India</p>
+            <p>Commerce Learning App by Web.Guno | Made with ❤️ for Indian Students</p>
         </footer>
     </div>
 
+    <!-- Script -->
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const topicForm = document.getElementById('topic-form');
+            const topicInput = document.getElementById('topic-input');
+            const loader = document.getElementById('loader');
+            const resultsContainer = document.getElementById('results-container');
+            const output6th = document.getElementById('output-6th');
+            const outputGrad = document.getElementById('output-grad');
+            const outputPhd = document.getElementById('output-phd');
+            const themeToggle = document.getElementById('theme-toggle');
 
+            const API_URL = "/api/generate";
 
-document.addEventListener('DOMContentLoaded', () => {
-    // DOM Elements
-    const topicForm = document.getElementById('topic-form');
-    const topicInput = document.getElementById('topic-input');
-    const loader = document.getElementById('loader');
-    const resultsContainer = document.getElementById('results-container');
-    const output6th = document.getElementById('output-6th');
-    const outputGrad = document.getElementById('output-grad');
-    const outputPhd = document.getElementById('output-phd');
-    const themeToggle = document.getElementById('theme-toggle');
+            let isDarkMode = localStorage.getItem('darkMode') === 'true';
 
-    // API Configuration - using Python backend
-    const API_URL = "/api/generate";
-
-    // Theme Management
-    let isDarkMode = localStorage.getItem('darkMode') === 'true';
-    
-    function updateTheme() {
-        document.body.classList.toggle('dark-mode', isDarkMode);
-        const icon = themeToggle.querySelector('i');
-        icon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
-        localStorage.setItem('darkMode', isDarkMode);
-    }
-
-    themeToggle.addEventListener('click', () => {
-        isDarkMode = !isDarkMode;
-        updateTheme();
-    });
-
-    // Initialize theme
-    updateTheme();
-
-    // Prompts for each level - updated for Indian English
-    const prompts = {
-        level_6th: "Explain the topic of '{topic}' to me like I'm a school student. Use simple Hindi-English words that Indian students understand easily. Give examples from daily life in India.",
-        level_grad: "Explain the topic of '{topic}' to me like I'm a college student in India. Use proper technical terms but explain them clearly. Give examples that Indian students can relate to.",
-        level_phd: "Provide a detailed, expert-level explanation of the topic '{topic}' suitable for research scholars and professors in Indian universities. Include current research, technical details, and academic perspectives."
-    };
-
-    // Add input animation
-    topicInput.addEventListener('focus', () => {
-        topicInput.parentElement.classList.add('focused');
-    });
-
-    topicInput.addEventListener('blur', () => {
-        if (!topicInput.value) {
-            topicInput.parentElement.classList.remove('focused');
-        }
-    });
-
-    // Form submission handler
-    topicForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const topic = topicInput.value.trim();
-
-        if (!topic) {
-            showNotification('Please enter koi topic to learn!', 'warning');
-            return;
-        }
-
-        // UI updates: show loader, hide old results
-        loader.style.display = 'flex';
-        resultsContainer.classList.add('hidden');
-        output6th.innerHTML = outputGrad.innerHTML = outputPhd.innerHTML = '';
-
-        // Add loading animation to cards
-        document.querySelectorAll('.level-card').forEach(card => {
-            card.classList.add('loading');
-        });
-
-        try {
-            // Create all API call promises
-            const promises = [
-                callAPI(prompts.level_6th.replace('{topic}', topic)),
-                callAPI(prompts.level_grad.replace('{topic}', topic)),
-                callAPI(prompts.level_phd.replace('{topic}', topic))
-            ];
-
-            // Wait for all promises to resolve
-            const [response6th, responseGrad, responsePhd] = await Promise.all(promises);
-
-            // Display results with animation
-            setTimeout(() => {
-                output6th.innerHTML = formatResponse(response6th);
-                outputGrad.innerHTML = formatResponse(responseGrad);
-                outputPhd.innerHTML = formatResponse(responsePhd);
-
-                resultsContainer.classList.remove('hidden');
-                
-                // Remove loading animation
-                document.querySelectorAll('.level-card').forEach((card, index) => {
-                    setTimeout(() => {
-                        card.classList.remove('loading');
-                        card.classList.add('loaded');
-                    }, index * 200);
-                });
-            }, 500);
-
-            showNotification('Sab explanations ready ho gaye!', 'success');
-
-        } catch (error) {
-            showNotification(`Error: ${error.message}`, 'error');
-            console.error(error);
-        } finally {
-            // Hide loader regardless of success or failure
-            loader.style.display = 'none';
-        }
-    });
-
-    // Notification system
-    function showNotification(message, type) {
-        const notification = document.createElement('div');
-        notification.className = `notification ${type}`;
-        notification.innerHTML = `
-            <i class="icon ${type === 'success' ? '✓' : type === 'warning' ? '⚠' : '✗'}"></i>
-            <span>${message}</span>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => notification.classList.add('show'), 100);
-        setTimeout(() => {
-            notification.classList.remove('show');
-            setTimeout(() => document.body.removeChild(notification), 300);
-        }, 3000);
-    }
-
-    /**
-     * Calls the Python backend API
-     * @param {string} promptText - The full prompt to send to the API.
-     * @returns {Promise<string>} The generated text from the API.
-     */
-    async function callAPI(promptText) {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                prompt: promptText
-            }),
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || `HTTP Error ${response.status}`);
-        }
-
-        const data = await response.json();
-        return data.text;
-    }
-
-    /**
-     * A simple formatter to convert Gemini's markdown-like output to basic HTML.
-     */
-    function formatResponse(text) {
-        // Replace **text** with <strong>text</strong> for bolding
-        let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-
-        // Replace * list item with <li> and wrap in <ul>
-        formattedText = formattedText.split('\n').map(line => {
-            if (line.trim().startsWith('* ')) {
-                return `<li>${line.trim().substring(2)}</li>`;
+            function updateTheme() {
+                document.body.classList.toggle('dark-mode', isDarkMode);
+                const icon = themeToggle.querySelector('i');
+                icon.className = isDarkMode ? 'fas fa-sun' : 'fas fa-moon';
+                localStorage.setItem('darkMode', isDarkMode);
             }
-            return line;
-        }).join('\n');
 
-        if (formattedText.includes('<li>')) {
-            formattedText = formattedText.replace(/<li>/g, '<ul><li>').replace(/<\/li>(?!\n<li>)/g, '</li></ul>');
-        }
+            themeToggle.addEventListener('click', () => {
+                isDarkMode = !isDarkMode;
+                updateTheme();
+            });
 
-        return formattedText;
-    }
-});
+            updateTheme();
 
-        
+            const prompts = {
+                level_6th: "Explain the topic of '{topic}' like I'm a school student studying commerce. Use simple Hindi-English words that Indian students understand easily. Give real-life examples from India.",
+                level_grad: "Explain the topic of '{topic}' like I'm a college commerce student. Use proper technical terms but explain them clearly. Include relevant formulas or case studies if applicable.",
+                level_phd: "Provide a detailed, expert-level explanation of the topic '{topic}', suitable for postgraduate students or professionals in commerce. Include current research trends, industry data, and academic references."
+            };
+
+            topicInput.addEventListener('focus', () => {
+                topicInput.parentElement.classList.add('focused');
+            });
+            topicInput.addEventListener('blur', () => {
+                if (!topicInput.value) topicInput.parentElement.classList.remove('focused');
+            });
+
+            topicForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const topic = topicInput.value.trim();
+                if (!topic) {
+                    showNotification('Please enter koi topic to learn!', 'warning');
+                    return;
+                }
+
+                loader.style.display = 'flex';
+                resultsContainer.classList.add('hidden');
+                output6th.innerHTML = outputGrad.innerHTML = outputPhd.innerHTML = '';
+
+                document.querySelectorAll('.level-card').forEach(card => card.classList.add('loading'));
+
+                try {
+                    const [response6th, responseGrad, responsePhd] = await Promise.all([
+                        callAPI(prompts.level_6th.replace('{topic}', topic)),
+                        callAPI(prompts.level_grad.replace('{topic}', topic)),
+                        callAPI(prompts.level_phd.replace('{topic}', topic))
+                    ]);
+
+                    setTimeout(() => {
+                        output6th.innerHTML = formatResponse(response6th);
+                        outputGrad.innerHTML = formatResponse(responseGrad);
+                        outputPhd.innerHTML = formatResponse(responsePhd);
+                        resultsContainer.classList.remove('hidden');
+
+                        document.querySelectorAll('.level-card').forEach((card, index) => {
+                            setTimeout(() => {
+                                card.classList.remove('loading');
+                                card.classList.add('loaded');
+                            }, index * 200);
+                        });
+                    }, 500);
+
+                    showNotification('Sab explanations ready ho gaye!', 'success');
+                } catch (error) {
+                    showNotification(`Error: ${error.message}`, 'error');
+                    console.error(error);
+                } finally {
+                    loader.style.display = 'none';
+                }
+            });
+
+            function showNotification(message, type) {
+                const notification = document.createElement('div');
+                notification.className = `notification ${type}`;
+                notification.innerHTML = `
+                    <i class="icon">${type === 'success' ? '✓' : type === 'warning' ? '⚠' : '✗'}</i>
+                    <span>${message}</span>
+                `;
+                document.body.appendChild(notification);
+                setTimeout(() => notification.classList.add('show'), 100);
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => document.body.removeChild(notification), 300);
+                }, 3000);
+            }
+
+            async function callAPI(promptText) {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ prompt: promptText })
+                });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP Error ${response.status}`);
+                }
+                const data = await response.json();
+                return data.text;
+            }
+
+            function formatResponse(text) {
+                let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                formattedText = formattedText.split('\n').map(line => {
+                    if (line.trim().startsWith('* ')) {
+                        return `<li>${line.trim().substring(2)}</li>`;
+                    }
+                    return line;
+                }).join('\n');
+                if (formattedText.includes('<li>')) {
+                    formattedText = formattedText.replace(/<li>/g, '<ul><li>').replace(/<\/li>(?!\n<li>)/g, '</li></ul>');
+                }
+                return formattedText;
+            }
+        });
     </script>
 </body>
 </html>
