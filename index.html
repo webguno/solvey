@@ -1078,7 +1078,24 @@ body {
 }
 
 
-     
+
+
+     .content-box table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-md) 0;
+}
+
+.content-box th,
+.content-box td {
+    padding: var(--spacing-sm);
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.content-box th {
+    background-color: var(--bg-tertiary);
+}
  
  </style>
 </head>
@@ -1512,14 +1529,86 @@ class SearchManager {
         }
     }
 
-    animateContentAppearance(element, content) {
-        element.style.opacity = '0';
-        element.innerHTML = content;
-        element.style.transition = 'opacity 0.5s ease';
-        setTimeout(() => {
-            element.style.opacity = '1';
-        }, 50);
+
+
+
+
+animateContentAppearance(element, content) {
+    element.style.opacity = '0';
+
+    // Convert **bold** to <strong>
+    let html = content.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+    // Convert * bullets to <ul><li>
+    const lines = html.split('\n');
+    let listOpen = false;
+    let tableMode = false;
+    let tableHTML = '';
+    let newLines = [];
+
+    for (let line of lines) {
+        // Table detection
+        if (line.trim().startsWith('|')) {
+            if (!tableMode) {
+                tableMode = true;
+                tableHTML = '<table border="1" class="table table-bordered"><tr>';
+                const headers = line.trim().match(/\|([^|]*)/g) || [];
+                for (let h of headers) {
+                    const text = h.replace(/^\||\|$/g, '').trim();
+                    tableHTML += `<th>${text}</th>`;
+                }
+                tableHTML += '</tr>';
+            } else {
+                tableHTML += '<tr>';
+                const cells = line.trim().match(/\|([^|]*)/g) || [];
+                for (let c of cells) {
+                    const text = c.replace(/^\||\|$/g, '').trim();
+                    tableHTML += `<td>${text}</td>`;
+                }
+                tableHTML += '</tr>';
+            }
+            continue;
+        } else if (tableMode) {
+            tableMode = false;
+            tableHTML += '</table>';
+            newLines.push(tableHTML);
+        }
+
+        // Bullet points
+        if (line.startsWith('* ')) {
+            if (!listOpen) {
+                newLines.push('<ul>');
+                listOpen = true;
+            }
+            newLines.push(`<li>${line.substring(2)}</li>`);
+        } else {
+            if (listOpen) {
+                newLines.push('</ul>');
+                listOpen = false;
+            }
+            newLines.push(line);
+        }
     }
+
+    if (listOpen) newLines.push('</ul>');
+    html = newLines.join('\n');
+
+    // Replace line breaks with <br>
+    html = html.replace(/\n/g, '<br>');
+
+    element.innerHTML = html;
+
+    element.style.transition = 'opacity 0.5s ease';
+    setTimeout(() => {
+        element.style.opacity = '1';
+    }, 50);
+}
+
+
+
+
+
+    
 
     showLoader() {
         this.loader.style.display = 'flex';
