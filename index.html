@@ -1772,13 +1772,7 @@ class SikhoCommerceApp {
                 shape.style.transform = `translateY(${yPos}px)`;
             });
             
-            // Header background opacity
-            const header = document.querySelector('.header');
-            const opacity = Math.min(scrollY / 100, 1);
-            header.style.backgroundColor = `rgba(255, 255, 255, ${opacity * 0.1})`;
-            
-            ticking = false;
-        };
+       
         
         const requestScrollUpdate = () => {
             if (!ticking) {
